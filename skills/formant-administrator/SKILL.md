@@ -1,50 +1,155 @@
 ---
 name: formant-administrator
-description: This skill should be used when users ask to administer Formant organizations and fleets using natural language, including diagnostics, configuration updates, role/user/team management, and operational workflows with the formant CLI.
-version: 0.2.0
+description: This skill should be used when users ask to administer Formant organizations and fleets using natural language — operational queries, diagnostics, fleet management, user/team/role admin, telemetry and analytics, command dispatch, event and signal inspection, and any general CLI task except config mutation workflows (which route to formant-config-lifecycle).
+version: 0.3.0
 ---
 
 # Formant Administrator
 
-Default operating behavior for competent Formant CLI administration.
+Default operating behavior for competent Formant CLI administration across all domains.
 
-## UX Model
+## Domain Model
 
-- Primary interface is natural language, not slash commands.
-- Keep slash-command usage minimal (`/check` for setup validation).
+Formant manages robot fleets through these core entities:
 
-## Baseline Workflow
+| Entity | Description |
+| --- | --- |
+| **Device** | A robot or agent. Has config, streams, tags, state. |
+| **Stream** | Named telemetry channel on a device (numeric, image, video, location, etc.). |
+| **Event** | System or user-generated occurrence with severity, device association, timestamps. |
+| **Signal** | AI-initiated investigation trigger tied to a persona and event. |
+| **Investigation** | Taskflow instance spawned from a signal or manually. |
+| **Command** | Template-based instruction dispatched to devices. |
+| **View** | Dashboard layout with stream configurations. |
+| **Teleop View** | Teleoperation-specific view layout. |
+| **Module / Module Configuration** | Embedded app component and its settings. |
+| **Config Template** | Reusable device configuration document. |
+| **Fleet** | Logical device grouping with scope filters. |
+| **Event Trigger / Group** | Automated event rules and notification groupings. |
+| **Schedule** | Time-based automation for commands or workflows. |
+| **Persona** | AI agent identity for signal/investigation workflows. |
+| **Channel** | Observability layout with filters. |
+| **User / Role / Team** | Identity, permissions, and group management. |
+| **Organization** | Top-level tenant with feature flags and integrations. |
+| **Annotation Template / Tag Template** | Metadata schemas for events and resources. |
 
-1. Run setup checks.
-- Use `/check` at session start or when auth/env is uncertain.
+## CLI Mastery Patterns
 
-2. Determine domain.
-- Device config/template work -> `formant-device-config`.
-- View/module/teleop-view work -> `formant-view-config`.
-- Command shape discovery -> `formant-cli-schemas`.
+### Command Discovery
 
-3. Execute change lifecycle for supported config entities.
-- Use `formant-config-lifecycle` for:
-  - `device-config`
-  - `config-template`
-  - `view`
-  - `teleop-view`
-  - `module-configuration`
+Find available commands and their exact schemas:
 
-4. Verify outcomes.
-- Re-read affected objects after writes.
-- Report key changed fields and artifact bundle location.
+```bash
+formant schema commands --json                              # all commands
+formant schema commands --topic <topic> --json              # one topic
+formant schema commands --command "<topic> <command>" --json # one command
+```
+
+Topics: `analytics`, `annotation-template`, `channel`, `command`, `config-template`, `device`, `event`, `event-trigger`, `event-trigger-group`, `fleet`, `ingest`, `investigation`, `kv`, `module`, `module-configuration`, `org`, `persona`, `query`, `role`, `schedule`, `signal`, `stream`, `tag-template`, `team`, `teleop-view`, `user`, `view`.
+
+### Output Modes
+
+Three mutually exclusive modes:
+
+| Flag | Mode | Best for |
+| --- | --- | --- |
+| _(none)_ | Table | Human reading |
+| `--json` | JSON | Programmatic use, piping to `jq` |
+| `--toon` | TOON | LLM-efficient token format |
+
+Always use `--json` when you need to parse, filter, or pipe output. Use `--toon` when feeding results to another LLM context.
+
+### Common Patterns
+
+```bash
+# List with filters
+formant device list --tag "env=production" --json
+formant event list --device <id> --severity critical --limit 50 --json
+
+# Get detail
+formant device get <id> --json
+formant user get <id> --json
+
+# Query telemetry
+formant query numeric --device <id> --stream <name> --start <iso> --end <iso> --json
+formant analytics sql --query "SELECT ..." --json
+
+# Pipe and filter with jq
+formant device list --json | jq '[.[] | {id, name, online: .state.online}]'
+```
+
+## Approach by Ask Type
+
+### Operational Queries & Diagnostics
+
+Read-only fleet inspection, device health, event triage.
+
+```bash
+formant device list --include-offline --with-data --json
+formant device get <device-id> --json
+formant device streams <device-id> --days 7 --json
+formant event list --device <device-id> --severity critical --limit 100 --json
+formant command history --device <device-id> --limit 50 --json
+```
+
+### Fleet Management
+
+Device grouping, tagging, fleet CRUD.
+
+```bash
+formant fleet list --json
+formant device list --tag "key=value" --json
+```
+
+### User, Team & Role Administration
+
+```bash
+formant user list --json
+formant user get <id> --json
+formant role list --json
+formant team list --json
+```
+
+### Telemetry & Analytics
+
+```bash
+formant query numeric --device <id> --stream <name> --start <iso> --end <iso> --json
+formant query text --device <id> --stream <name> --start <iso> --end <iso> --json
+formant analytics sql --query "<SQL>" --json
+formant stream list --device <id> --json
+```
+
+### Command Dispatch
+
+```bash
+formant command list --json
+formant command issue <device-id> --command <name> --json
+formant command issue <device-id> --command <name> --parameter '<json>' --json
+```
+
+### Event & Signal Inspection
+
+```bash
+formant event list --json
+formant signal list --json
+formant investigation list --json
+```
+
+### Config Mutations
+
+For any configuration change to `device-config`, `config-template`, `view`, `teleop-view`, or `module-configuration`:
+
+**Route to the `formant-config-lifecycle` skill.** It provides snapshot/apply/rollback artifact management. Do not manually apply config changes outside that workflow.
+
+## Setup Validation
+
+Use `/check` at session start or when auth/environment state is uncertain. This validates CLI availability, auth status, and org access.
 
 ## Safety Rules
 
-- Treat `prod` as default and highest-risk environment.
-- Never expose credentials.
-- Never fabricate IDs, schemas, or command output.
-- Always produce rollback-ready artifacts for supported config mutations.
-
-## References
-
-- `references/command-playbooks.md`
-- `references/operating-contract.md`
-- `../formant-cli-schemas/references/config-entity-schemas.md`
-- `../formant-cli-schemas/references/deep-config-hierarchies.md`
+- Treat `prod` as the default and highest-risk environment. Use `--stage` intentionally when targeting non-production.
+- Never expose credentials or secret values.
+- Never fabricate IDs, schemas, or command output. Use `formant schema commands --json` to validate command shapes before execution.
+- Always produce rollback-ready artifacts for supported config mutations (via `formant-config-lifecycle`).
+- Do not add unknown fields to API payloads unless the schema or live response confirms they are valid.
+- Validate command args/flags before execution. If a command shape is ambiguous, resolve via schema first.

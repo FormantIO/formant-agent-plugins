@@ -1,6 +1,6 @@
 ---
 description: Validate local Formant CLI setup, auth, and environment targeting
-argument-hint: "[--dev|--stage]"
+argument-hint: "[--stage]"
 ---
 
 # /check
@@ -13,7 +13,7 @@ Run environment and authentication checks before Formant admin tasks.
 /check $ARGUMENTS
 ```
 
-`$ARGUMENTS` may include `--dev` or `--stage`. If omitted, default to production.
+`$ARGUMENTS` may include `--stage`. If omitted, default to production.
 
 ## Workflow
 
@@ -43,7 +43,7 @@ formant auth status $ARGUMENTS
 ```
 
 5. Output a short readiness report:
-- target environment (`prod`/`stage`/`dev`)
+- target environment (`prod`/`stage`)
 - authenticated principal (if available)
 - org id/name
 - blockers
@@ -51,5 +51,5 @@ formant auth status $ARGUMENTS
 ## Guardrails
 
 - Never print secret values.
-- If both `--dev` and `--stage` are present, ask user to choose one.
+- If both flags are present, ask user to choose one.
 - Keep checks read-only.

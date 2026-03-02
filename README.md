@@ -40,11 +40,8 @@ formant auth login --user "<service-account-email>" --password "<password>"
 
 | Skill | Description |
 |-------|-------------|
-| `formant-administrator` | Default router for natural-language admin workflows |
-| `formant-cli-schemas` | Schema discovery and command-shape validation |
-| `formant-config-lifecycle` | Rollback-safe configuration mutations |
-| `formant-device-config` | Device and template configuration operations |
-| `formant-view-config` | View, module, and teleop configuration operations |
+| `formant-administrator` | Full-coverage CLI administration for operations, diagnostics, and fleet management |
+| `formant-config-lifecycle` | Rollback-safe configuration mutations with schema-aware editing |
 
 ### Commands
 

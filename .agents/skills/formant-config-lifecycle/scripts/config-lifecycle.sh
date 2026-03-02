@@ -4,7 +4,7 @@ set -euo pipefail
 usage() {
   cat <<USAGE
 Usage:
-  config-lifecycle.sh --entity <entity> --id <id> [--env prod|stage|dev] [--updated <json-file>] [--artifacts-root <dir>]
+  config-lifecycle.sh --entity <entity> --id <id> [--env prod|stage] [--updated <json-file>] [--artifacts-root <dir>]
 
 Supported entities:
   device-config
