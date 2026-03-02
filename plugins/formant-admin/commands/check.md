@@ -35,14 +35,20 @@ formant auth status --json $ARGUMENTS
 formant org get --json $ARGUMENTS
 ```
 
-4. If auth fails, print remediation and stop:
+4. If CLI is missing, print installation instructions and stop:
+
+```bash
+npm install -g @formant/formant-cli
+```
+
+5. If auth fails, print remediation and stop:
 
 ```bash
 formant auth login --user "<service-account-email>" --password "<service-account-password>"
 formant auth status $ARGUMENTS
 ```
 
-5. Output a short readiness report:
+6. Output a short readiness report:
 - target environment (`prod`/`stage`)
 - authenticated principal (if available)
 - org id/name
