@@ -1,10 +1,15 @@
 {
+  "name": "formant-plugins",
+  "owner": {
+    "name": "Formant",
+    "email": "hello@formant.io"
+  },
   "plugins": [
     {
       "name": "formant-admin",
       "version": "0.1.0",
       "description": "Operate Formant organizations and robot fleets from Claude Cowork using the formant CLI with safe admin workflows.",
-      "repository": "FormantIO/formant-agent-plugins"
+      "source": "./plugins/formant-admin"
     }
   ]
 }
