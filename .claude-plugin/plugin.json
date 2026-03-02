@@ -1,0 +1,11 @@
+{
+  "name": "formant-admin",
+  "version": "0.1.0",
+  "description": "Operate Formant organizations and robot fleets from Claude Cowork using the formant CLI with safe admin workflows.",
+  "author": {
+    "name": "Formant"
+  },
+  "homepage": "https://github.com/FormantIO/formant-cli",
+  "repository": "https://github.com/FormantIO/formant-cli",
+  "license": "UNLICENSED"
+}
