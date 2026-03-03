@@ -42,6 +42,8 @@ formant auth login --user "<service-account-email>" --password "<password>"
 |-------|-------------|
 | `formant-administrator` | Full-coverage CLI administration for operations, diagnostics, and fleet management |
 | `formant-config-lifecycle` | Rollback-safe configuration mutations with schema-aware editing |
+| `formant-view-configuration` | Historical telemetry view (coherence style) design defaults and audit heuristics; suggestions only, not hard rules |
+| `formant-teleop-view-configuration` | Teleop view design defaults for camera/control composition and action wiring; suggestions only, not hard rules |
 
 ### Commands
 

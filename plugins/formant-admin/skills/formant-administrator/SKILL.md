@@ -1,6 +1,6 @@
 ---
 name: formant-administrator
-description: This skill should be used when users ask to administer Formant organizations and fleets using natural language — operational queries, diagnostics, fleet management, user/team/role admin, telemetry and analytics, command dispatch, event and signal inspection, and any general CLI task except config mutation workflows (which route to formant-config-lifecycle).
+description: This skill should be used when users ask to administer Formant organizations and fleets using natural language — operational queries, diagnostics, fleet management, user/team/role admin, telemetry and analytics, command dispatch, event and signal inspection, and general CLI tasks. Route config mutations to formant-config-lifecycle, historical telemetry view design requests to formant-view-configuration, and teleop view design requests to formant-teleop-view-configuration.
 version: 0.3.0
 ---
 
@@ -134,6 +134,18 @@ formant event list --json
 formant signal list --json
 formant investigation list --json
 ```
+
+### Historical View Design Review
+
+For historical telemetry dashboard layout strategy, stream curation, and module usability reviews:
+
+**Route to the `formant-view-configuration` skill.**
+
+### Teleop View Design Review
+
+For teleoperation layout strategy, camera/control composition, and action wiring reviews:
+
+**Route to the `formant-teleop-view-configuration` skill.**
 
 ### Config Mutations
 
