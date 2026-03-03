@@ -144,6 +144,12 @@ formant view get <view-id> --full --json \
             | (reduce .attributes[] as $a ({}; .[$a.name]=$a.value) | .streamName)] | unique | .[]'
 ```
 
+### 6b. Documentation-backed checks
+
+- Verify whether the view is intended to expose a timeline/date control bar, and ensure module-level time overrides are intentional.
+- For group views, validate group query scope assumptions (current members only vs all tagged historical members).
+- Remember that user drag/resize changes may be local cache only and not globally persisted.
+
 ### 7. Produce recommendations
 
 Report in this order:
@@ -160,3 +166,9 @@ When asked to change a view:
 2. apply minimal edits
 3. verify resulting module wiring and timeline behavior
 4. report rollback artifact path and diff summary
+
+## References
+
+- Views and modules: https://docs.formant.io/docs/getting-started-views-and-modules
+- Create a view and add modules (Coherence): https://docs.formant.io/docs/getting-started-create-a-view-and-add-modules
+- Timeline behavior: https://docs.formant.io/docs/getting-started-the-timeline

@@ -56,6 +56,9 @@ Also verify available command templates if command modules are used:
 formant command list --json
 ```
 
+Prerequisite reminder:
+- teleop modules are powered by real-time connections; if connections are missing, modules may render but will not function.
+
 ### 3. Validate view-to-device targeting
 
 Check teleop view tags and binding consistency:
@@ -100,6 +103,11 @@ Technical control patterns that have worked well:
   - commonly `Sit`, `Stand`, `Dock`, `Walk`, `Crawl`, `Stairs`, `Recover`
 - include a command module filtered to a robot namespace (for example `Spot: `) for less-frequent actions
 
+Control semantics to verify:
+- button modules are momentary (`true` while held, `false` on release)
+- latching buttons toggle persistent `true/false` state
+- text input sends only on Enter and then clears
+
 ### 6. Validate wiring against device teleop config
 
 Cross-check module references with:
@@ -120,6 +128,8 @@ Critical sync checks:
 - button wiring:
   - on-screen button labels/dataStream values should align with `teleop.customStreams[*].labels`
   - flag extras/missing entries explicitly (for example extra emergency action or missing reset action)
+- session behavior:
+  - validate controls while a teleop session is active and unlocked, not from static configuration inspection alone
 
 ### 6a. Quick technical checks
 
@@ -160,3 +170,10 @@ When asked to change a teleop view:
 2. apply minimal edits
 3. verify module placement and stream/control wiring
 4. report rollback artifact path and diff summary
+
+## References
+
+- Build a teleoperation interface: https://docs.formant.io/docs/getting-started-build-a-teleoperation-interface
+- Set up real-time connections: https://docs.formant.io/docs/getting-started-set-up-real-time-connections
+- Teleoperate a device: https://docs.formant.io/docs/getting-started-teleoperate-a-device
+- Teleoperation overview: https://docs.formant.io/docs/getting-started-teleoperation

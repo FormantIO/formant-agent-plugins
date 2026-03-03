@@ -1,7 +1,7 @@
 ---
 name: formant-administrator
-description: This skill should be used when users ask to administer Formant organizations and fleets using natural language — operational queries, diagnostics, fleet management, user/team/role admin, telemetry and analytics, command dispatch, event and signal inspection, and general CLI tasks. Route config mutations to formant-config-lifecycle, historical telemetry view design requests to formant-view-configuration, and teleop view design requests to formant-teleop-view-configuration.
-version: 0.3.0
+description: This skill should be used when users ask to administer Formant organizations and fleets using natural language — operational queries, diagnostics, fleet management, user/team/role admin, telemetry and analytics, command dispatch, event and signal inspection, and general CLI tasks. Route persona chat sessions to formant-persona-chat, config mutations to formant-config-lifecycle, historical telemetry view design to formant-view-configuration, teleop view design to formant-teleop-view-configuration, event automation design to formant-event-automation, realtime connection design to formant-realtime-connection-design, task summary analytics to formant-task-summary-analytics, and stream tuning to formant-stream-tuning.
+version: 0.4.0
 ---
 
 # Formant Administrator
@@ -135,6 +135,36 @@ formant signal list --json
 formant investigation list --json
 ```
 
+### Persona Chat Sessions
+
+For direct user chat with a specific persona in Theopolis (persona selection, thread continuity, sync/async turns, polling, history):
+
+**Route to the `formant-persona-chat` skill.**
+
+### Event Automation Design Review
+
+For event trigger/group design, stateful trigger semantics, notification/action policy, and alert-noise tuning:
+
+**Route to the `formant-event-automation` skill.**
+
+### Realtime Connection Design
+
+For telemetry-vs-realtime stream role decisions, live stream wiring, media tuning, and low-bandwidth behavior:
+
+**Route to the `formant-realtime-connection-design` skill.**
+
+### Task Summary Analytics
+
+For task-summary reporting strategy, KPI query patterns, and task-summary data quality checks:
+
+**Route to the `formant-task-summary-analytics` skill.**
+
+### Stream Tuning
+
+For telemetry rates, video quality/bitrate, adaptive quality behavior, and on-demand stream strategy:
+
+**Route to the `formant-stream-tuning` skill.**
+
 ### Historical View Design Review
 
 For historical telemetry dashboard layout strategy, stream curation, and module usability reviews:
@@ -156,6 +186,24 @@ For any configuration change to `device-config`, `config-template`, `view`, `tel
 ## Setup Validation
 
 Use `/check` at session start or when auth/environment state is uncertain. This validates CLI availability, auth status, and org access.
+
+## Documentation Links
+
+- Views and modules: https://docs.formant.io/docs/getting-started-views-and-modules
+- Create a view and add modules: https://docs.formant.io/docs/getting-started-create-a-view-and-add-modules
+- Teleoperation overview: https://docs.formant.io/docs/getting-started-teleoperation
+- Teleoperate a device: https://docs.formant.io/docs/getting-started-teleoperate-a-device
+- Build a teleoperation interface: https://docs.formant.io/docs/getting-started-build-a-teleoperation-interface
+- Set up real-time connections: https://docs.formant.io/docs/getting-started-set-up-real-time-connections
+- Telemetry vs realtime data streams: https://docs.formant.io/docs/getting-started-telemetry-vs-realtime-data-streams
+- Create an event and configure notifications: https://docs.formant.io/docs/getting-started-create-an-event-and-configure-notifications
+- Create a custom event: https://docs.formant.io/docs/getting-started-create-a-custom-event
+- Trigger webhooks from events: https://docs.formant.io/docs/trigger-webhooks-from-events
+- Query events in analytics: https://docs.formant.io/docs/query-events-in-analytics
+- Task summaries: https://docs.formant.io/docs/task-summaries
+- Create a task summary: https://docs.formant.io/docs/create-a-task-summary
+- Add a video stream: https://docs.formant.io/docs/getting-started-add-a-video-stream
+- Video encoding: https://docs.formant.io/docs/video-encoding
 
 ## Safety Rules
 

@@ -41,9 +41,14 @@ formant auth login --user "<service-account-email>" --password "<password>"
 | Skill | Description |
 |-------|-------------|
 | `formant-administrator` | Full-coverage CLI administration for operations, diagnostics, and fleet management |
+| `formant-persona-chat` | Persona-first Theopolis chat workflows with thread continuity, sync/async turns, polling, and history |
 | `formant-config-lifecycle` | Rollback-safe configuration mutations with schema-aware editing |
 | `formant-view-configuration` | Historical telemetry view (coherence style) design defaults and audit heuristics; suggestions only, not hard rules |
 | `formant-teleop-view-configuration` | Teleop view design defaults for camera/control composition and action wiring; suggestions only, not hard rules |
+| `formant-event-automation` | Event trigger and trigger-group design defaults for condition semantics, action routing, and alert-noise reduction |
+| `formant-realtime-connection-design` | Realtime stream architecture defaults for teleop/observe wiring, media tuning, and live validation |
+| `formant-task-summary-analytics` | Task-summary KPI and SQL defaults for reporting quality checks and analysis workflows |
+| `formant-stream-tuning` | Telemetry and video stream tuning defaults for rate, bandwidth, and usability tradeoffs |
 
 ### Commands
 
