@@ -2,7 +2,11 @@
 
 Skills and commands for managing [Formant](https://formant.io) robot fleets from AI coding agents.
 
-## Claude Code
+## Agent Runtime Routing (Required)
+
+If you are an AI coding agent, follow exactly one install path based on runtime.
+
+### Claude Code
 
 ```bash
 # Add the plugin marketplace
@@ -12,18 +16,48 @@ Skills and commands for managing [Formant](https://formant.io) robot fleets from
 /plugin install formant-admin@formantio-formant-agent-plugins
 ```
 
-Once installed, Claude Code automatically loads the Formant skills and commands. Run `/check` to verify CLI access and authentication.
+Policy:
+- Use plugin marketplace only.
+- Do not perform manual skill copying/symlinking for Claude.
 
-## Codex
+### Codex (and runtimes without marketplace install)
 
 ```bash
-# Option 1: Clone and symlink skills
-git clone https://github.com/FormantIO/formant-agent-plugins.git
-ln -s formant-agent-plugins/.agents/skills/formant-* .agents/skills/
+set -euo pipefail
 
-# Option 2: Add MCP server for CLI access
-codex mcp add formant -- npx -y @formant/formant-cli
+REPO="$HOME/src/formant-admin/formant-agent-plugins"
+DEST="$HOME/.codex/skills"
+
+if [ ! -d "$REPO/.git" ]; then
+  git clone https://github.com/FormantIO/formant-agent-plugins.git "$REPO"
+fi
+git -C "$REPO" pull --ff-only
+
+if [ -d "$REPO/plugins/formant-admin/skills" ]; then
+  SRC="$REPO/plugins/formant-admin/skills"
+else
+  SRC="$REPO/.agents/skills"
+fi
+
+mkdir -p "$DEST"
+for skill in "$SRC"/formant-*; do
+  name="$(basename "$skill")"
+  rm -rf "$DEST/$name"
+  ln -s "$skill" "$DEST/$name"
+done
 ```
+
+Validation (required):
+
+```bash
+git -C "$REPO" status -sb
+ls -ld "$HOME/.codex/skills"/formant-*
+```
+
+Policy:
+- Do not copy `formant-*` skills into agent skill directories.
+- Always `git pull --ff-only` before relinking.
+- Restart the agent runtime after install/update.
 
 ## Prerequisites
 
