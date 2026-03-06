@@ -1,6 +1,6 @@
 {
   "name": "formant-admin",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "description": "Operate Formant organizations and robot fleets from Claude Cowork using the formant CLI with safe admin workflows.",
   "author": {
     "name": "Formant"
