@@ -7,7 +7,7 @@
   "plugins": [
     {
       "name": "formant-admin",
-      "version": "0.1.9",
+      "version": "0.1.10",
       "description": "Operate Formant organizations and robot fleets from Claude Cowork using the formant CLI with safe admin workflows.",
       "source": "./plugins/formant-admin"
     }

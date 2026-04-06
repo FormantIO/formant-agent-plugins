@@ -1,7 +1,7 @@
 ---
 name: formant-administrator
-description: This skill should be used when users ask to administer Formant organizations and fleets using natural language — operational queries, fleet management, user/team/role admin, telemetry and analytics, command dispatch, event and signal inspection, and general CLI tasks. Route device offline, missing telemetry, missing log upload, and stream-trigger diagnosis to formant-device-diagnostics; persona chat sessions to formant-persona-chat; config mutations to formant-config-lifecycle; historical telemetry view design to formant-view-configuration; teleop view design to formant-teleop-view-configuration; event automation design to formant-event-automation; realtime connection design to formant-realtime-connection-design; task summary analytics to formant-task-summary-analytics; and stream tuning to formant-stream-tuning.
-version: 0.5.0
+description: This skill should be used when users ask to administer Formant organizations and fleets using natural language — operational queries, diagnostics, fleet management, user/team/role admin, telemetry and analytics, command dispatch, event and signal inspection, and general CLI tasks. Route persona chat sessions to formant-persona-chat, config mutations to formant-config-lifecycle, historical telemetry view design to formant-view-configuration, teleop view design to formant-teleop-view-configuration, event automation design to formant-event-automation, realtime connection design to formant-realtime-connection-design, task summary analytics to formant-task-summary-analytics, and stream tuning to formant-stream-tuning.
+version: 0.4.0
 ---
 
 # Formant Administrator
@@ -71,7 +71,7 @@ formant device get <id> --json
 formant user get <id> --json
 
 # Query telemetry
-formant query --device <id> --stream <name> --type numeric --start <iso> --end <iso> --json
+formant query numeric --device <id> --stream <name> --start <iso> --end <iso> --json
 formant analytics sql --query "SELECT ..." --json
 
 # Pipe and filter with jq
@@ -91,10 +91,6 @@ formant device streams <device-id> --days 7 --json
 formant event list --device <device-id> --severity critical --limit 100 --json
 formant command history --device <device-id> --limit 50 --json
 ```
-
-For deeper diagnosis of device offline behavior, missing telemetry, missing agent logs, or stream-based event trigger failures:
-
-**Route to the `formant-device-diagnostics` skill.**
 
 ### Fleet Management
 
@@ -117,8 +113,8 @@ formant team list --json
 ### Telemetry & Analytics
 
 ```bash
-formant query --device <id> --stream <name> --type numeric --start <iso> --end <iso> --json
-formant query --device <id> --stream <name> --type text --start <iso> --end <iso> --json
+formant query numeric --device <id> --stream <name> --start <iso> --end <iso> --json
+formant query text --device <id> --stream <name> --start <iso> --end <iso> --json
 formant analytics sql --query "<SQL>" --json
 formant stream list --device <id> --json
 ```
